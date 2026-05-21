@@ -77,7 +77,7 @@ input[type="range"] {
 
 .grid {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1200px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
@@ -118,8 +118,9 @@ input[type="range"] {
 }
 
 .label {
-    font-size: 22px;
+    font-size: 21px;
     font-weight: bold;
+    line-height: 1.25;
 }
 
 .footer {
@@ -152,7 +153,7 @@ input[type="range"] {
 <body>
 
 <h1>ADONIS SOUNDBOARD</h1>
-<div class="subtitle">Hotkeys 1–4 • R για random • Escape για stop</div>
+<div class="subtitle">Hotkeys 1–9, 0, Q • R για random • Escape για stop</div>
 
 <div class="controls">
     <button class="control-btn" onclick="stopAllSounds()">STOP ALL</button>
@@ -170,20 +171,45 @@ input[type="range"] {
         <div class="key">[1]</div>
         <div class="label">ΟΛΑ</div>
     </button>
-
     <button class="sound-btn" onclick="playSound('sound2')">
         <div class="key">[2]</div>
         <div class="label">ΒΟΥΛΗ</div>
     </button>
-
     <button class="sound-btn" onclick="playSound('sound3')">
         <div class="key">[3]</div>
         <div class="label">Ο Μητσοτάκης φταίει;</div>
     </button>
-
     <button class="sound-btn" onclick="playSound('sound4')">
         <div class="key">[4]</div>
         <div class="label">Ε ε ε ε ε ένα λεπτό</div>
+    </button>
+    <button class="sound-btn" onclick="playSound('sound5')">
+        <div class="key">[5]</div>
+        <div class="label">Τα λιγουρεύεστε;!!</div>
+    </button>
+    <button class="sound-btn" onclick="playSound('sound6')">
+        <div class="key">[6]</div>
+        <div class="label">Αριστεροί!! Αριστεροί!!</div>
+    </button>
+    <button class="sound-btn" onclick="playSound('sound7')">
+        <div class="key">[7]</div>
+        <div class="label">Η Ελλάδα είναι Ζάχαρη!</div>
+    </button>
+    <button class="sound-btn" onclick="playSound('sound8')">
+        <div class="key">[8]</div>
+        <div class="label">Όχι...</div>
+    </button>
+    <button class="sound-btn" onclick="playSound('sound9')">
+        <div class="key">[9]</div>
+        <div class="label">Τρισικομυριοστή</div>
+    </button>
+    <button class="sound-btn" onclick="playSound('sound10')">
+        <div class="key">[0]</div>
+        <div class="label">Τετρασικομύριο</div>
+    </button>
+    <button class="sound-btn" onclick="playSound('sound11')">
+        <div class="key">[Q]</div>
+        <div class="label">Μια φορά κι έναν καιρό ήταν ο άνθρωπος</div>
     </button>
 
 </div>
@@ -196,9 +222,16 @@ ADONIS SOUNDBOARD • Cyber Neon Edition
 <audio id="sound2" preload="auto" src="sounds/02 - vouli.mp3"></audio>
 <audio id="sound3" preload="auto" src="sounds/03 - Mitsotakis-Ftaiei.mp3"></audio>
 <audio id="sound4" preload="auto" src="sounds/04 - e-e-e-e-e-ena-lepto.mp3"></audio>
+<audio id="sound5" preload="auto" src="sounds/05-ta-ligoureueste.mp3"></audio>
+<audio id="sound6" preload="auto" src="sounds/06-aristeroi-aristeroi.mp3"></audio>
+<audio id="sound7" preload="auto" src="sounds/07-ellada-zaxari.mp3"></audio>
+<audio id="sound8" preload="auto" src="sounds/08-oxi.mp3"></audio>
+<audio id="sound9" preload="auto" src="sounds/09-trisikomuriosti.mp3"></audio>
+<audio id="sound10" preload="auto" src="sounds/10-tetrasikomurio.mp3"></audio>
+<audio id="sound11" preload="auto" src="sounds/11-mia-fora-kai-enan-kairo-itan-o-an8rwpos.mp3"></audio>
 
 <script>
-const soundIds = ['sound1', 'sound2', 'sound3', 'sound4'];
+const soundIds = ['sound1', 'sound2', 'sound3', 'sound4', 'sound5', 'sound6', 'sound7', 'sound8', 'sound9', 'sound10', 'sound11'];
 
 function getSounds() {
     return soundIds.map(id => document.getElementById(id));
@@ -244,10 +277,17 @@ document.getElementById('volumeSlider').addEventListener('input', function() {
 document.addEventListener('keydown', function(event) {
     if (event.repeat) return;
 
-    if (event.key === '1') playSound('sound1');
-    if (event.key === '2') playSound('sound2');
-    if (event.key === '3') playSound('sound3');
-    if (event.key === '4') playSound('sound4');
+    if (event.key.toLowerCase() === '1') playSound('sound1');
+    if (event.key.toLowerCase() === '2') playSound('sound2');
+    if (event.key.toLowerCase() === '3') playSound('sound3');
+    if (event.key.toLowerCase() === '4') playSound('sound4');
+    if (event.key.toLowerCase() === '5') playSound('sound5');
+    if (event.key.toLowerCase() === '6') playSound('sound6');
+    if (event.key.toLowerCase() === '7') playSound('sound7');
+    if (event.key.toLowerCase() === '8') playSound('sound8');
+    if (event.key.toLowerCase() === '9') playSound('sound9');
+    if (event.key.toLowerCase() === '0') playSound('sound10');
+    if (event.key.toLowerCase() === 'q') playSound('sound11');
 
     if (event.key.toLowerCase() === 'r') playRandomSound();
     if (event.key === 'Escape') stopAllSounds();

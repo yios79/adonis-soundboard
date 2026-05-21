@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADONIS SOUNDBOARD</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #1a0033, #050505);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+    color: #ff00ff;
+    text-align: center;
+    text-shadow:
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 40px #ff00ff;
+}
+
+.subtitle {
+    opacity: 0.75;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.control-btn {
+    background: #111;
+    border: 2px solid #ff00ff;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.control-btn:hover {
+    background: #ff00ff;
+    color: black;
+    transform: scale(1.05);
+}
+
+.volume-box {
+    margin: 0 0 30px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="range"] {
+    width: 220px;
+}
+
+.grid {
+    width: 100%;
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.sound-btn {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid #8a2be2;
+    color: white;
+    padding: 25px;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
+    box-shadow:
+        0 0 10px rgba(138,43,226,0.4),
+        inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+.sound-btn:hover {
+    transform: translateY(-4px) scale(1.03);
+    border-color: #ff00ff;
+    box-shadow:
+        0 0 20px rgba(255,0,255,0.6),
+        0 0 40px rgba(255,0,255,0.3);
+}
+
+.sound-btn:active {
+    transform: scale(0.98);
+}
+
+.key {
+    font-size: 14px;
+    opacity: 0.75;
+    margin-bottom: 12px;
+}
+
+.label {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.footer {
+    margin-top: 40px;
+    opacity: 0.5;
+    font-size: 14px;
+    text-align: center;
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 18px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .label {
+        font-size: 18px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>ADONIS SOUNDBOARD</h1>
+<div class="subtitle">Hotkeys 1–4 • R για random • Escape για stop</div>
+
+<div class="controls">
+    <button class="control-btn" onclick="stopAllSounds()">STOP ALL</button>
+    <button class="control-btn" onclick="playRandomSound()">RANDOM</button>
+</div>
+
+<div class="volume-box">
+    <span>🔊 Volume</span>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+</div>
+
+<div class="grid">
+
+    <button class="sound-btn" onclick="playSound('sound1')">
+        <div class="key">[1]</div>
+        <div class="label">ΟΛΑ</div>
+    </button>
+
+    <button class="sound-btn" onclick="playSound('sound2')">
+        <div class="key">[2]</div>
+        <div class="label">ΒΟΥΛΗ</div>
+    </button>
+
+    <button class="sound-btn" onclick="playSound('sound3')">
+        <div class="key">[3]</div>
+        <div class="label">Ο Μητσοτάκης φταίει;</div>
+    </button>
+
+    <button class="sound-btn" onclick="playSound('sound4')">
+        <div class="key">[4]</div>
+        <div class="label">Ε ε ε ε ε ένα λεπτό</div>
+    </button>
+
+</div>
+
+<div class="footer">
+ADONIS SOUNDBOARD • Cyber Neon Edition
+</div>
+
+<audio id="sound1" preload="auto" src="sounds/01 - ola.mp3"></audio>
+<audio id="sound2" preload="auto" src="sounds/02 - vouli.mp3"></audio>
+<audio id="sound3" preload="auto" src="sounds/03 - Mitsotakis-Ftaiei.mp3"></audio>
+<audio id="sound4" preload="auto" src="sounds/04 - e-e-e-e-e-ena-lepto.mp3"></audio>
+
+<script>
+const soundIds = ['sound1', 'sound2', 'sound3', 'sound4'];
+
+function getSounds() {
+    return soundIds.map(id => document.getElementById(id));
+}
+
+function setVolume(sound) {
+    const volumeSlider = document.getElementById('volumeSlider');
+    sound.volume = Number(volumeSlider.value);
+}
+
+function playSound(id) {
+    const sound = document.getElementById(id);
+    if (!sound) return;
+
+    sound.pause();
+    sound.currentTime = 0;
+    setVolume(sound);
+
+    sound.play().catch(error => {
+        console.log('Audio playback blocked or file not found:', error);
+        alert('Δεν μπόρεσε να παίξει ο ήχος. Έλεγξε ότι το αρχείο υπάρχει μέσα στον φάκελο sounds και έχει ακριβώς το ίδιο όνομα.');
+    });
+}
+
+function stopAllSounds() {
+    getSounds().forEach(sound => {
+        sound.pause();
+        sound.currentTime = 0;
+    });
+}
+
+function playRandomSound() {
+    const randomId = soundIds[Math.floor(Math.random() * soundIds.length)];
+    playSound(randomId);
+}
+
+document.getElementById('volumeSlider').addEventListener('input', function() {
+    getSounds().forEach(sound => {
+        sound.volume = Number(this.value);
+    });
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.repeat) return;
+
+    if (event.key === '1') playSound('sound1');
+    if (event.key === '2') playSound('sound2');
+    if (event.key === '3') playSound('sound3');
+    if (event.key === '4') playSound('sound4');
+
+    if (event.key.toLowerCase() === 'r') playRandomSound();
+    if (event.key === 'Escape') stopAllSounds();
+});
+</script>
+
+</body>
+</html>
